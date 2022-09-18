@@ -3,18 +3,18 @@ const context = canvas.getContext('2d')
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
 
-let land = new Land()
-let street = new Street()
+const land = new Land()
+const street = new Street()
 let lanes = 3
 
 const keysPressed = {}
 
 const keyActions = {
     ArrowLeft() {
-        street.decreaseVelocityX()
+        land.decreaseVelocityX()
     },
     ArrowRight() {
-        street.increaseVelocityX()
+        land.increaseVelocityX()
     },
     KeyA() {
         lanes = 3
@@ -49,14 +49,31 @@ function handleKeys() {
     })
 }
 
-function animate() {
-    handleKeys()
-    land.drawGrass()
-    street.updatePoints()
-    street.adjustVelocityX()
-    street.drawStreet()
+function handleLanes() {
     street.setLanes(lanes)
     street.drawLanes()
+}
+
+function handleStreet() {
+    land.drawGrass()
+    street.drawStreet()
+}
+
+function handleVeloX() {
+    land.updatePoints()
+    land.adjustVelocityX()
+}
+
+function handleVeloZ() {
+
+}
+
+function animate() {
+    // context.clearRect(0, 0, canvas.width, canvas.height);
+    handleKeys()
+    handleVeloX()
+    handleLanes()
+    handleStreet()
     requestAnimationFrame(animate)
 }
 requestAnimationFrame(animate)
